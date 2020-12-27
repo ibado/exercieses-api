@@ -49,7 +49,7 @@ app.post('/api/routines', (req, res) => {
     repository.add(routine).then((value) => {
         res.send(value);
     });
-})
+});
 
 app.put('/api/routines/:id', (req, res) => {
     const id = Number(req.params.id);
@@ -74,7 +74,7 @@ app.put('/api/routines/:id', (req, res) => {
         value.name = req.body.name;
         repository.update(value).then(v => res.send(value));
     }); 
-})
+});
 
 app.delete('/api/routines/:id', (req, res) => {
     const id = req.params.id;
@@ -82,18 +82,18 @@ app.delete('/api/routines/:id', (req, res) => {
     repository.remove(id).then((value) => {
         const result = value.affectedRows;
         if (result == 1) {
-            res.send("Routine deleted")
+            res.send("Routine deleted");
         } else {
             res.status(404).send("The routine with the given ID does not exist");
         }
     });
 
-})
+});
 
 function validateRoutine(routine) {
     return Joi.object({
         name: Joi.string().min(3).required()
-    }).validate(routine)
+    }).validate(routine);
 }
 
 const port = process.env.PORT || 3000;
