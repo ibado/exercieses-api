@@ -5,10 +5,17 @@ class RoutineRepository {
 
     constructor() {
         this.dbConnection = makeDb({
-            host: "localhost",
+            host: "mysql",
             user: "test",
             password: "Sarasa1234%",
             database: "exercises"
+        });
+        const creationQuery = 'CREATE TABLE IF NOT EXISTS routines('
+            + 'id INT PRIMARY KEY AUTO_INCREMENT,'
+            + 'name VARCHAR(50));';
+        this.dbConnection.query(creationQuery, (err, result) => {
+            if (err) console.log(`error trying to create tables. E: ${err}`);
+            else console.log("Tables created successfully.");
         });
     }
 

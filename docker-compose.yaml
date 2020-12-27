@@ -1,0 +1,23 @@
+version: '3.7'
+
+services:
+    node-app:
+        image: ibado/exercises-api
+        ports:      
+            - 8080:3000
+        links:
+            - mysql
+        depends_on:
+            - mysql
+    mysql:
+        image: mysql:8.0.22
+        command: --default-authentication-plugin=mysql_native_password
+        environment:
+            MYSQL_DATABASE: exercises
+            MYSQL_USER: test
+            MYSQL_ROOT_PASSWORD: Sarasa1234%
+            MYSQL_PASSWORD: Sarasa1234%
+        ports:
+            - 3306:3306
+        volumes:
+            - ./mysql-data:/var/lib/mysql
