@@ -8,14 +8,14 @@ const repository = new RoutineRepository();
 
 app.use(express.json());
 
-router.route('/routines')
+router.route('/exercises')
     .get((req, res) => {
-        console.log("getting routines...");
+        console.log("getting exercises...");
         repository.getAll()
             .then(value => res.send(value))
             .catch(error => {
                 res.status(500).send('500: shit happened');
-                console.log(`error fetching routines: ${error}`);
+                console.log(`error fetching exercises: ${error}`);
             });
     })
     .post((req, res) => {
@@ -27,13 +27,13 @@ router.route('/routines')
             return;
         }
 
-        const routine = { name: req.body.name, };
+        const exercise = { name: req.body.name, };
 
-        repository.add(routine).then((value) => res.send(value));
+        repository.add(exercise).then((value) => res.send(value));
 
     });
 
-router.route('/routines/:id')
+router.route('/exercises/:id')
     .get((req, res) => {
         const id = Number(req.params.id);
         if (!id) {
@@ -42,7 +42,7 @@ router.route('/routines/:id')
         }
         repository.findById(id).then(value => {
             if (!value) {
-                res.status(404).send("The routine with the given ID does not exist");
+                res.status(404).send("The exercises with the given ID does not exist");
                 return;
             }
             res.send(value);
@@ -58,7 +58,7 @@ router.route('/routines/:id')
 
         repository.findById(id).then(value => {
             if (!value) {
-                res.status(404).send("The routine with the given ID does not exist");
+                res.status(404).send("The exercise with the given ID does not exist");
                 return;
             }
 
@@ -81,7 +81,7 @@ router.route('/routines/:id')
             if (result == 1) {
                 res.send("Routine deleted");
             } else {
-                res.status(404).send("The routine with the given ID does not exist");
+                res.status(404).send("The exercise with the given ID does not exist");
             }
         });
     });
@@ -92,10 +92,10 @@ app.get('/', (req, res) => {
 
 app.use('/api', router);
 
-function validateRoutine(routine) {
+function validateRoutine(exercise) {
     return Joi.object({
         name: Joi.string().min(3).required()
-    }).validate(routine);
+    }).validate(exercise);
 }
 
 const port = process.env.PORT || 3000;
