@@ -13,7 +13,10 @@ router.route('/routines')
         console.log("getting routines...");
         repository.getAll()
             .then(value => res.send(value))
-            .catch(error => res.status(500).send(`shit happened: ${error}`));
+            .catch(error => {
+                res.status(500).send('500: shit happened');
+                console.log(`error fetching routines: ${error}`);
+            });
     })
     .post((req, res) => {
 
