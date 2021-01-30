@@ -9,7 +9,7 @@ const repository = new RoutineRepository();
 app.use(express.json());
 
 router.route('/exercises')
-    .get((req, res) => {
+    .get((_, res) => {
         console.log("getting exercises...");
         repository.getAll()
             .then(value => res.send(value))
@@ -70,7 +70,7 @@ router.route('/exercises/:id')
             }
 
             value.name = req.body.name;
-            repository.update(value).then(v => res.send(value));
+            repository.update(value).then(_ => res.send(value));
         });
     })
     .delete((req, res) => {
@@ -86,7 +86,7 @@ router.route('/exercises/:id')
         });
     });
 
-app.get('/', (req, res) => {
+app.get('/', (_, res) => {
     res.send('Hello from express sarasa');
 });
 
