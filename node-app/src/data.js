@@ -1,7 +1,7 @@
 const mysql = require('mysql');
 const util = require('util');
 
-class RoutineRepository {
+class ExerciseRepository {
 
     constructor() {
         this.dbConnection = initDB({
@@ -53,4 +53,4 @@ function initDB(config) {
     };
 }
 
-module.exports = RoutineRepository;
+module.exports = ExerciseRepository;
