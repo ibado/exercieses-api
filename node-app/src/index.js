@@ -1,25 +1,20 @@
+const ExerciseRouter = require('./exercises/router');
+const ExerciseRepository = require('./exercises/repository');
+const ExerciseController = require('./exercises/controller');
+
 const express = require('express');
-const exercises = require('./exercises');
+
+const initDB = require('./data');
+
+const dbConnection = initDB();
+
+const repository = new ExerciseRepository(dbConnection);
+const controller = new ExerciseController(repository);
+const exercises = new ExerciseRouter(controller);
 
 const app = express();
-const router = express.Router();
-
 app.use(express.json());
-
-router.route('/exercises')
-    .get(exercises.getAll)
-    .post(exercises.post);
-
-router.route('/exercises/:id')
-    .get(exercises.getById)
-    .put(exercises.put)
-    .delete(exercises.delete);
-
-app.get('/', (_, res) => {
-    res.send('Hello from express sarasa');
-});
-
-app.use('/api', router);
+app.use('/api/exercises', exercises);
 
 const port = process.env.PORT || 3000;
 

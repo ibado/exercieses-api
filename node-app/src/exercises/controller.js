@@ -1,28 +1,24 @@
 const Joi = require('joi');
-const ExerciseRepository = require('./data');
 
-const repository = new ExerciseRepository();
+class ExerciseController {
 
-function validateRoutine(exercise) {
-    return Joi.object({
-        name: Joi.string().min(3).required()
-    }).validate(exercise);
-}
+    constructor(repository) {
+        console.log(`creating controller - ${repository}`);
+        this.repository = repository;
+    }
 
-module.exports = {
-
-    getAll: function(_, res) {
+    getAll(_, res) {
         console.log("getting exercises...");
 
-        repository.getAll()
+        this.repository.getAll()
             .then(value => res.send(value))
             .catch(error => {
                 res.status(500).send('500: shit happened');
                 console.log(`error fetching exercises: ${error}`);
             });
-    },
+    }
 
-    post: function(req, res) {
+    post(req, res) {
         const { error } = validateRoutine(req.body);
 
         if (error) {
@@ -32,32 +28,32 @@ module.exports = {
 
         const exercise = { name: req.body.name, };
 
-        repository.add(exercise).then((value) => res.send(value));
-    },
+        this.repository.add(exercise).then((value) => res.send(value));
+    }
 
-    getById: function(req, res) {
+    getById(req, res) {
         const id = Number(req.params.id);
         if (!id) {
             res.status(400).send(`${req.params.id} is an invalid id`);
             return;
         }
-        repository.findById(id).then(value => {
+        this.repository.findById(id).then(value => {
             if (!value) {
                 res.status(404).send("The exercises with the given ID does not exist");
                 return;
             }
             res.send(value);
         });
-    },
+    }
 
-    put: function(req, res) {
+    put(req, res) {
         const id = Number(req.params.id);
         if (!id) {
             res.status(400).send(`${req.params.id} is an invalid id`);
             return;
         }
 
-        repository.findById(id).then(value => {
+        this.repository.findById(id).then(value => {
             if (!value) {
                 res.status(404).send("The exercise with the given ID does not exist");
                 return;
@@ -71,14 +67,14 @@ module.exports = {
             }
 
             value.name = req.body.name;
-            repository.update(value).then(_ => res.send(value));
+            this.repository.update(value).then(_ => res.send(value));
         });
-    },
+    }
 
-    delete: function(req, res) {
+    delete(req, res) {
         const id = req.params.id;
 
-        repository.remove(id).then((value) => {
+        this.repository.remove(id).then((value) => {
             const result = value.affectedRows;
             if (result == 1) {
                 res.send("Routine deleted");
@@ -86,6 +82,14 @@ module.exports = {
                 res.status(404).send("The exercise with the given ID does not exist");
             }
         });
-    },
-};
+    }
+}
+
+function validateRoutine(exercise) {
+    return Joi.object({
+        name: Joi.string().min(3).required()
+    }).validate(exercise);
+}
+
+module.exports = ExerciseController;
 
