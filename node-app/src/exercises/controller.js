@@ -1,5 +1,3 @@
-const Joi = require('joi');
-
 class ExerciseController {
 
     constructor(repository) {
@@ -18,13 +16,7 @@ class ExerciseController {
             });
     }
 
-    post(req, res) {
-        const { error } = validateRoutine(req.body);
-
-        if (error) {
-            res.status(400).send(error.details[0].message);
-            return;
-        }
+    post(req, res) { 
 
         const exercise = { name: req.body.name, };
 
@@ -32,39 +24,21 @@ class ExerciseController {
     }
 
     getById(req, res) {
-        const id = Number(req.params.id);
-        if (!id) {
-            res.status(400).send(`${req.params.id} is an invalid id`);
-            return;
-        }
-        this.repository.findById(id).then(value => {
+        
+        this.repository.findById(req.params.id).then(value => {
             if (!value) {
                 res.status(404).send("The exercises with the given ID does not exist");
-                return;
             }
             res.send(value);
         });
     }
 
     put(req, res) {
-        const id = Number(req.params.id);
-        if (!id) {
-            res.status(400).send(`${req.params.id} is an invalid id`);
-            return;
-        }
 
-        this.repository.findById(id).then(value => {
+        this.repository.findById(req.params.id).then(value => {
             if (!value) {
                 res.status(404).send("The exercise with the given ID does not exist");
-                return;
-            }
-
-            const { error } = validateRoutine(req.body);
-
-            if (error) {
-                res.status(400).send(error.details[0].message);
-                return;
-            }
+            } 
 
             value.name = req.body.name;
             this.repository.update(value).then(_ => res.send(value));
@@ -83,12 +57,6 @@ class ExerciseController {
             }
         });
     }
-}
-
-function validateRoutine(exercise) {
-    return Joi.object({
-        name: Joi.string().min(3).required()
-    }).validate(exercise);
 }
 
 module.exports = ExerciseController;
