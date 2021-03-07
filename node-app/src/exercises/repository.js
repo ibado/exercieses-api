@@ -1,7 +1,6 @@
 class ExerciseRepository {
 
     constructor(dbConnection) {
-        console.log(`creating repository - ${dbConnection}`);
         this.dbConnection = dbConnection;
     }
 

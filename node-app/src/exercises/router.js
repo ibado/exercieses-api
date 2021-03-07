@@ -5,7 +5,6 @@ const { validateExercise, validateId } = require('./validations');
 class ExerciseRouter extends Router {
     constructor(exercises) {
         super();
-        console.log(`creating router - ${exercises}`);
         this.route('/')
             .get((req, res) => exercises.getAll(req, res))
             .post(validateExercise, (req, res) => exercises.post(req, res));

@@ -1,13 +1,10 @@
 class ExerciseController {
 
     constructor(repository) {
-        console.log(`creating controller - ${repository}`);
         this.repository = repository;
     }
 
     getAll(_, res) {
-        console.log("getting exercises...");
-
         this.repository.getAll()
             .then(value => res.send(value))
             .catch(error => {

@@ -2,3 +2,4 @@ node_modules/
 npm-debug.log
 mysql-data/
 .nvimlog
+*.env
