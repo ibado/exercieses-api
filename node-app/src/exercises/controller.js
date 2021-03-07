@@ -26,7 +26,7 @@ class ExerciseController {
     getById(req, res) {
         
         this.repository.findById(req.params.id).then(value => {
-            this.#checkIfExist(res, value);
+            if (!value) this.#notFound(res);
             res.send(value);
         });
     }
@@ -34,7 +34,7 @@ class ExerciseController {
     put(req, res) {
 
         this.repository.findById(req.params.id).then(value => {
-            this.#checkIfExist(res, value);
+            if (!value) this.#notFound(res);
             value.name = req.body.name;
             this.repository.update(value).then(_ => res.send(value));
         });
@@ -48,15 +48,13 @@ class ExerciseController {
             if (result == 1) {
                 res.send("Routine deleted");
             } else {
-                res.status(404).send("The exercise with the given ID does not exist");
+                this.#notFound(res);
             }
         });
     }
 
-    #checkIfExist(res, exercise) {
-        if (!exercise) {
-            res.status(404).send("The exercises with the given ID does not exist");
-        }
+    #notFound(res) {
+        res.status(404).send("The exercises with the given ID does not exist");
     }
 }
 
