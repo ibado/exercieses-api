@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node src/index.js"
+    "start": "node src/index.js",
+    "lock": "npm i --package-lock-only"
   },
   "keywords": [],
   "author": "",
@@ -14,11 +15,11 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "joi": "^17.3.0",
-    "mocha": "^8.2.1",
     "morgan": "^1.10.0",
     "mysql": "^2.18.1"
   },
   "devDependencies": {
+    "mocha": "^8.2.1",
     "typescript": "^4.2.3"
   }
 }
