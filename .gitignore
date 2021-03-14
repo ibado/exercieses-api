@@ -3,3 +3,4 @@ npm-debug.log
 mysql-data/
 .nvimlog
 *.env
+node-app/dist/*
