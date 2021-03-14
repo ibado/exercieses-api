@@ -7,34 +7,35 @@ class ExerciseController {
     getAll(_, res) {
         this.repository.getAll()
             .then(value => res.send(value))
-            .catch(error => {
-                res.status(500).send('500: shit happened');
-                console.log(`error fetching exercises: ${error}`);
-            });
+            .catch(e => this._handleError(e, res));
     }
 
     post(req, res) { 
 
         const exercise = { name: req.body.name, };
 
-        this.repository.add(exercise).then((value) => res.send(value));
+        this.repository.add(exercise)
+            .then((value) => res.send(value))
+            .catch(e => this._handleError(e, res));
     }
 
     getById(req, res) {
         
         this.repository.findById(req.params.id).then(value => {
-            if (!value) this.#notFound(res);
+            if (!value) this._notFound(res);
             res.send(value);
-        });
+        }).catch(e => this._handleError(e, res));
     }
 
     put(req, res) {
 
         this.repository.findById(req.params.id).then(value => {
-            if (!value) this.#notFound(res);
+            if (!value) this.notFound(res);
             value.name = req.body.name;
-            this.repository.update(value).then(_ => res.send(value));
-        });
+            this.repository.update(value)
+                .then(_ => res.send(value))
+                .catch(e => this._handleError(e, res));
+        }).catch(e => this._handleError(e, res));
     }
 
     delete(req, res) {
@@ -45,13 +46,18 @@ class ExerciseController {
             if (result == 1) {
                 res.send("Routine deleted");
             } else {
-                this.#notFound(res);
+                this._notFound(res);
             }
-        });
+        }).catch(e => this._handleError(e, res));
     }
 
-    #notFound(res) {
+    _notFound(res) {
         res.status(404).send("The exercises with the given ID does not exist");
+    }
+
+    _handleError(e, res) {
+        console.error(e);
+        res.sendStatus(500);
     }
 }
 

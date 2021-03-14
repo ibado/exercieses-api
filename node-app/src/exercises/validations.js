@@ -7,6 +7,7 @@ const validateExercise = (req, res, next) => {
 
     if (error) {
         res.status(400).send(error.details[0].message);
+        return;
     }
 
     next();
@@ -16,6 +17,7 @@ const validateId = (req, res, next) => {
     const id = Number(req.params.id);
     if (!id) {
         res.status(400).send(`${req.params.id} is an invalid id`);
+        return;
     }
 
     next();
