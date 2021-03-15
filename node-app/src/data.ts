@@ -1,11 +1,11 @@
 const mysql = require('mysql');
 const util = require('util');
 
-function connectDB(config) {
+function connectDB(config: object): DB {
     const connection = mysql.createConnection(config);  
 
     return {
-        query(sql, args) {
+        query(sql: string, args: any[]) {
           return util.promisify(connection.query)
             .call(connection, sql, args);
         },
@@ -24,5 +24,10 @@ const initDB = () => {
     });
 
 };
+
+export interface DB {
+    query: (query: string, args: any[]) => Promise<any>
+    close: () => void
+}
 
 module.exports = initDB;
