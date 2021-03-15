@@ -14,5 +14,3 @@ export class AuthRouter {
         return this.router;
     }
 }
-
-module.exports = AuthRouter;

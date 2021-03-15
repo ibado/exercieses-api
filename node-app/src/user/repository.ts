@@ -16,5 +16,3 @@ export class UserRepository {
         return insertId;  
     }
 }
-
-module.exports = UserRepository;
