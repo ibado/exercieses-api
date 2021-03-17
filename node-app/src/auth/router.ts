@@ -7,7 +7,12 @@ export class AuthRouter {
 
     constructor(controller: AuthController) {
         this.router = Router();
-        this.router.route('/').post((req, res) => controller.post(req, res));
+        this.router.route('/register').post(
+            async (req, res) => controller.register(req, res)
+        );
+        this.router.route('/authorize').post(
+            async (req, res) => controller.authorize(req, res)
+        );
     }
 
     getRouter() {

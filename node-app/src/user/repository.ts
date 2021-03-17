@@ -15,4 +15,15 @@ export class UserRepository {
         const { insertId } = await this.dbConnection.query(sql, args);
         return insertId;  
     }
+
+    async findByEmail(email: string) {
+        const sql = 'SELECT * FROM user WHERE email=?;';
+        const result = await this.dbConnection.query(sql, [email]);
+        return (Array.isArray(result) && result.length > 0) ? {
+            id: result[0].id,
+            email: result[0].email,
+            password: result[0].password,
+            isEnabled: result[0].enabled
+        } : null
+    }
 }
