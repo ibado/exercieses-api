@@ -4,3 +4,4 @@ mysql-data/
 .nvimlog
 *.env
 node-app/dist/*
+node-app/.secrets/*

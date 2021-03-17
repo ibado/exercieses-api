@@ -1,6 +1,7 @@
 import { UserRepository } from '../user/repository'
 import { Request, Response } from 'express';
-import { hash, compare } from '../bcrypt';
+import { hash, compare } from '../util/bcrypt';
+import { create } from '../util/jwt';
 
 export class AuthController {
 
@@ -13,7 +14,6 @@ export class AuthController {
     async register(req: Request, res: Response) {
         try {
             const { email, password } = req.body;
-            // verify email
             const isEmailTaken = await this.repository.findByEmail(email);
             if (isEmailTaken) {
                 res.status(500).json({
@@ -51,8 +51,7 @@ export class AuthController {
                 })
                 return;
             }
-            // 3) create token
-            const token = "asdsarasa";
+            const token = create({id: user.id, email: user.email});
             res.status(201).json({
                 message: "User authorized successfully",
                 token: token
