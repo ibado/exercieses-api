@@ -10,11 +10,11 @@ export class AuthRouter {
         this.router = Router();
         this.router.route('/register').post(
             validateUser,
-            async (req, res) => controller.register(req, res)
+            (req, res) => controller.register(req, res)
         );
         this.router.route('/authorize').post(
             validateUser,
-            async (req, res) => controller.authorize(req, res)
+            (req, res) => controller.authorize(req, res)
         );
     }
 
