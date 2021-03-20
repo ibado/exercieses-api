@@ -14,6 +14,7 @@ app.use(express.json());
 app.use(logger('dev'));
 app.use('/api/exercises', routesFactory.createExerciseRouter());
 app.use('/api/auth', routesFactory.createAuthRouter());
+app.use('/api/routines', routesFactory.createRoutinesRouter());
 
 const port = process.env.PORT;
 app.listen(port, () => console.log(`Listen in port ${port}...`));

@@ -5,7 +5,7 @@ function connectDB(config: object): DB {
     const connection = mysql.createConnection(config);  
 
     return {
-        query(sql: string, args: any[]) {
+        query(sql, args) {
           return util.promisify(connection.query)
             .call(connection, sql, args);
         },
@@ -26,7 +26,7 @@ const initDB = () => {
 };
 
 export interface DB {
-    query: (query: string, args: any[]) => Promise<any>
+    query: (query: string, args?: any[]) => Promise<any>
     close: () => void
 }
 
