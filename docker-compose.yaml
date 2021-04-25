@@ -9,6 +9,7 @@ services:
             - mysql
         depends_on:
             - mysql
+        restart: on-failure
     mysql:
         image: mysql:8.0.22
         command: --default-authentication-plugin=mysql_native_password
@@ -19,3 +20,4 @@ services:
         volumes:
             - ./mysql-data:/var/lib/mysql
             - ./mysql-scripts:/docker-entrypoint-initdb.d
+        restart: on-failure

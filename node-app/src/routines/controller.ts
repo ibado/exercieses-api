@@ -10,7 +10,7 @@ export class RoutineController {
         this.repository = repository;
     }
 
-    async getAll(req: Request, res: Response) {
+    async getAll(_: Request, res: Response) {
         try {
             const result = await this.repository.getAll();
             res.send(result);
